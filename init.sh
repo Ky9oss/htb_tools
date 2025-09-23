@@ -52,6 +52,7 @@ if [[ "$choice" =~ ^[Yy]$ ]]; then
     run "Install yakit" "wget https://github.com/yaklang/yakit/releases/download/v1.4.4-0830/Yakit-1.4.4-0830-linux-amd64.AppImage -O $HOME/yakit.AppImage && chmod +x $HOME/yakit.AppImage && (nohup $HOME/yakit.AppImage &)"
     run "Install xray" "wget https://github.com/chaitin/xray/releases/download/1.9.11/xray_linux_amd64.zip -O $HOME/xray_linux_amd64.zip && unzip $HOME/xray_linux_amd64.zip && mv $HOME/xray_linux_amd64 $HOME/xray && chmod +x $HOME/xray"
     run "Install rad" "wget https://github.com/chaitin/rad/releases/download/1.0/rad_linux_amd64.zip -O $HOME/rad_linux_amd64.zip && unzip $HOME/rad_linux_amd64.zip && mv $HOME/rad_linux_amd64 $HOME/rad && chmod +x $HOME/rad"
+    run "Install rustcan" "wget https://github.com/bee-san/RustScan/releases/download/2.4.1/x86_64-linux-rustscan.tar.gz.zip -O $HOME/x86_64-linux-rustscan.tar.gz.zip && cd $HOME && unzip $HOME/x86_64-linux-rustscan.tar.gz.zip && tar -zxvf $HOME/x86_64-linux-rustscan.tar.gz.zip && chmod +x $HOME/rustscan"
     run "Add environment variables" "echo 'export PATH=\"\$HOME/:\$PATH\"' >> $HOME/.bashrc && source $HOME/.bashrc"
 fi
 
