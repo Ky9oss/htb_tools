@@ -49,12 +49,19 @@ read -p "Are you hacking a web? [Y/n] " choice
 choice=${choice:-y}
 
 if [[ "$choice" =~ ^[Yy]$ ]]; then
-    run "Install yakit" "wget https://github.com/yaklang/yakit/releases/download/v1.4.4-0830/Yakit-1.4.4-0830-linux-amd64.AppImage -O $HOME/yakit.AppImage && chmod +x $HOME/yakit.AppImage && (nohup $HOME/yakit.AppImage &)"
-    run "Install xray" "wget https://github.com/chaitin/xray/releases/download/1.9.11/xray_linux_amd64.zip -O $HOME/xray_linux_amd64.zip && unzip $HOME/xray_linux_amd64.zip && mv $HOME/xray_linux_amd64 $HOME/xray && chmod +x $HOME/xray"
-    run "Install rad" "wget https://github.com/chaitin/rad/releases/download/1.0/rad_linux_amd64.zip -O $HOME/rad_linux_amd64.zip && unzip $HOME/rad_linux_amd64.zip && mv $HOME/rad_linux_amd64 $HOME/rad && chmod +x $HOME/rad"
-    run "Install rustcan" "wget https://github.com/bee-san/RustScan/releases/download/2.4.1/x86_64-linux-rustscan.tar.gz.zip -O $HOME/x86_64-linux-rustscan.tar.gz.zip && cd $HOME && unzip $HOME/x86_64-linux-rustscan.tar.gz.zip && tar -zxvf $HOME/x86_64-linux-rustscan.tar.gz.zip && chmod +x $HOME/rustscan"
-    run "Add environment variables" "echo 'export PATH=\"\$HOME/:\$PATH\"' >> $HOME/.bashrc && source $HOME/.bashrc"
+    run "Change Dir" "mkdir -p $HOME/web-tools/ && cd $HOME/web-tools/"
+    run "Install yakit" "wget https://github.com/yaklang/yakit/releases/download/v1.4.4-0830/Yakit-1.4.4-0830-linux-amd64.AppImage -O ./yakit.AppImage && chmod +x ./yakit.AppImage && (nohup ./yakit.AppImage &)"
+    run "Install xray" "wget https://github.com/chaitin/xray/releases/download/1.9.11/xray_linux_amd64.zip -O ./xray_linux_amd64.zip && unzip ./xray_linux_amd64.zip && rm ./xray_linux_amd64.zip && mv ./xray_linux_amd64 ./xray && chmod +x ./xray"
+    run "Install rad" "wget https://github.com/chaitin/rad/releases/download/1.0/rad_linux_amd64.zip -O ./rad_linux_amd64.zip && unzip ./rad_linux_amd64.zip && rm ./rad_linux_amd64.zip && mv ./rad_linux_amd64 ./rad && chmod +x ./rad"
+    run "Install rustcan" "wget https://github.com/bee-san/RustScan/releases/download/2.4.1/x86_64-linux-rustscan.tar.gz.zip -O ./x86_64-linux-rustscan.tar.gz.zip && unzip ./x86_64-linux-rustscan.tar.gz.zip && tar -zxvf ./x86_64-linux-rustscan.tar.gz.zip && chmod +x ./rustscan"
+    run "Add environment variables" "echo 'export PATH=\"\$HOME/web-tools/:\$PATH\"' >> $HOME/.bashrc && source $HOME/.bashrc"
 fi
 
+read -p "Are you hacking IPSEC? [Y/n] " choice
+choice=${choice:-y}
+if [[ "$choice" =~ ^[Yy]$ ]]; then
+    run "Install ike-scan" "cd $HOME && git clone https://github.com/royhills/ike-scan.git && cd ike-scan && ./configure && make"
+    run "Add environment variables" "echo 'export PATH=\"\$HOME/ike-scan/:\$PATH\"' >> $HOME/.bashrc && source $HOME/.bashrc"
+fi
 
 echo "Done! Happy Hacking!😊"
