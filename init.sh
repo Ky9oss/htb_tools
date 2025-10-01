@@ -41,7 +41,7 @@ read -p "Do you want to remove some useless tools to free up space? [Y/n] " choi
 choice=${choice:-y}
 
 if [[ "$choice" =~ ^[Yy]$ ]]; then
-    run  "Remove useless tools" "sudo apt-get purge aircrack-ng netsniff-ng oscanner hitori caido nikto hashdeep tali ophcrack wireshark pixiewps ettercap-graphical aisleriot four-in-a-row gnome-2048 gnome-chess gnome-klotski gnome-mahjongg gnome-mines gnome-nibbles gnome-robots gnome-sudoku gnome-taquin iagno libgme0:amd64 libgnome-games-support-1-3:amd64 libgnome-games-support-common libmanette-0.2-0:amd64 lightsoff quadrapassel swell-foop quadrapassel netdiscover dmitry -y"
+    run  "Removing useless tools" "sudo apt-get purge aircrack-ng netsniff-ng oscanner hitori caido nikto hashdeep tali ophcrack wireshark pixiewps ettercap-graphical aisleriot four-in-a-row gnome-2048 gnome-chess gnome-klotski gnome-mahjongg gnome-mines gnome-nibbles gnome-robots gnome-sudoku gnome-taquin iagno libgme0:amd64 libgnome-games-support-1-3:amd64 libgnome-games-support-common libmanette-0.2-0:amd64 lightsoff quadrapassel swell-foop quadrapassel netdiscover dmitry -y"
 fi
 
 
@@ -49,12 +49,18 @@ read -p "Are you hacking a web? [Y/n] " choice
 choice=${choice:-y}
 
 if [[ "$choice" =~ ^[Yy]$ ]]; then
-    run "Change Dir" "mkdir -p $HOME/web-tools/ && cd $HOME/web-tools/"
-    run "Install yakit" "wget https://github.com/yaklang/yakit/releases/download/v1.4.4-0830/Yakit-1.4.4-0830-linux-amd64.AppImage -O ./yakit.AppImage && chmod +x ./yakit.AppImage && (nohup ./yakit.AppImage &)"
-    run "Install xray" "wget https://github.com/chaitin/xray/releases/download/1.9.11/xray_linux_amd64.zip -O ./xray_linux_amd64.zip && unzip ./xray_linux_amd64.zip && rm ./xray_linux_amd64.zip && mv ./xray_linux_amd64 ./xray && chmod +x ./xray"
-    run "Install rad" "wget https://github.com/chaitin/rad/releases/download/1.0/rad_linux_amd64.zip -O ./rad_linux_amd64.zip && unzip ./rad_linux_amd64.zip && rm ./rad_linux_amd64.zip && mv ./rad_linux_amd64 ./rad && chmod +x ./rad"
-    run "Install rustcan" "wget https://github.com/bee-san/RustScan/releases/download/2.4.1/x86_64-linux-rustscan.tar.gz.zip -O ./x86_64-linux-rustscan.tar.gz.zip && unzip ./x86_64-linux-rustscan.tar.gz.zip && tar -zxvf ./x86_64-linux-rustscan.tar.gz.zip && chmod +x ./rustscan"
-    run "Add environment variables" "echo 'export PATH=\"\$HOME/web-tools/:\$PATH\"' >> $HOME/.bashrc && source $HOME/.bashrc"
+    run "Changing Dir" "mkdir -p $HOME/web-tools/ && cd $HOME/web-tools/"
+    run "Installing yakit" "wget https://github.com/yaklang/yakit/releases/download/v1.4.4-0830/Yakit-1.4.4-0830-linux-amd64.AppImage -O ./yakit.AppImage && mv ./yakit.AppImage ./yakit && chmod +x ./yakit"
+    run "Installing xray" "wget https://github.com/chaitin/xray/releases/download/1.9.11/xray_linux_amd64.zip && unzip ./xray_linux_amd64.zip && mv ./xray_linux_amd64 ./xray && chmod +x ./xray"
+    run "Installing rad" "wget https://github.com/chaitin/rad/releases/download/1.0/rad_linux_amd64.zip -O ./rad_linux_amd64.zip && unzip ./rad_linux_amd64.zip &&  mv ./rad_linux_amd64 ./rad && chmod +x ./rad"
+    run "Installing rustcan" "wget https://github.com/bee-san/RustScan/releases/download/2.4.1/x86_64-linux-rustscan.tar.gz.zip -O ./x86_64-linux-rustscan.tar.gz.zip && unzip ./x86_64-linux-rustscan.tar.gz.zip && tar -zxvf ./x86_64-linux-rustscan.tar.gz && chmod +x ./rustscan"
+    run "Cleaning zip" "rm ./xray_linux_amd64.zip ./rad_linux_amd64.zip ./x86_64-linux-rustscan.tar.gz ./x86_64-linux-rustscan.tar.gz.zip"
+    run "Installing AWVS" "sudo systemctl start docker && sudo docker pull ghcr.io/xrsec/awvs:24.4.240427095 && sudo docker run -it -d --name awvs -p 127.0.0.1:3443:3443 --restart=always ghcr.io/xrsec/awvs:24.4.240427095 && echo $(hostname -I | awk '{print $2}') awvs.lan | sudo tee -a /etc/hosts && sudo wget -O /usr/local/share/ca-certificates/RootCA.crt https://cdn.jsdelivr.net/gh/XRSec/AWVS-Update@main/.github/resources/ca.cer && sudo update-ca-certificates && docker exec -i 'awvs' bash -c 'apt update -y && apt upgrade -y && apt install -y libsqlite3-dev wget && wget https://raw.githubusercontent.com/ngductung/acunetix23/main/check-tools.sh --no-check-certificate -O ./check-tools.sh && chmod +x ./check-tools.sh && ./check-tools.sh'"
+    run "Add environment variables" "echo 'export PATH=\"\$HOME/web-tools/:\$PATH\"' >> $HOME/.bashrc"
+    printf '%s\n' "Success!" \
+    "URL: https://awvs.lan:3443/#/login" \
+    "UserName: awvs@awvs.lan" \
+    "PassWord: Awvs@awvs.lan"
 fi
 
 read -p "Are you hacking IPSEC? [Y/n] " choice
@@ -64,4 +70,5 @@ if [[ "$choice" =~ ^[Yy]$ ]]; then
     run "Add environment variables" "echo 'export PATH=\"\$HOME/ike-scan/:\$PATH\"' >> $HOME/.bashrc && source $HOME/.bashrc"
 fi
 
+source $HOME/.bashrc
 echo "Done! Happy Hacking!😊"
