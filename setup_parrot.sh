@@ -76,7 +76,8 @@ if [ "$choice" = "Y" ] || [ "$choice" = "y" ]; then
         "mkdir -p $AD_DIR && cd $AD_DIR"
 
     run "Installing NetExec(lastest version)" \
-        "pipx install git+https://github.com/Pennyw0rth/NetExec"
+        "pipx install git+https://github.com/Pennyw0rth/NetExec && \
+        sudo cp ~/.local/bin/nxc /usr/local/bin/nxc"
 
     run "Installing AvaloniaILSpy" \
         "wget https://github.com/icsharpcode/AvaloniaILSpy/releases/download/v7.2-rc/Linux.x64.Release.zip -O $AD_DIR/AvaloniaILSpy.zip && \
