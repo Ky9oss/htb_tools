@@ -77,12 +77,16 @@ if [ "$choice" = "Y" ] || [ "$choice" = "y" ]; then
 
     run "Installing NetExec(lastest version)" \
         "pipx install git+https://github.com/Pennyw0rth/NetExec && \
-        sudo cp ~/.local/bin/nxc /usr/local/bin/nxc"
+        sudo cp ~/.local/bin/nxc /usr/local/bin/nxc && \
+        rm -f ~/.nxc/workspaces/default/smb.db"
 
     run "Installing AvaloniaILSpy" \
         "wget https://github.com/icsharpcode/AvaloniaILSpy/releases/download/v7.2-rc/Linux.x64.Release.zip -O $AD_DIR/AvaloniaILSpy.zip && \
         unzip $AD_DIR/AvaloniaILSpy.zip && \
         unzip $AD_DIR/ILSpy-linux-x64-Release.zip"
+
+    run "Installing Ghostpack-CompiledBinaries" \
+        "git clone https://github.com/r3motecontrol/Ghostpack-CompiledBinaries"
 fi
 
 
@@ -147,6 +151,11 @@ if [ "$choice" = "Y" ] || [ "$choice" = "y" ]; then
     run "Add environment variables" \
         "echo 'export PATH=\"\$HOME/ike-scan/:\$PATH\"' >> $HOME/.bashrc"
 fi
+
+run "Install Metasploit(latest version)" \
+    "curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && \
+  chmod 755 msfinstall && \
+  ./msfinstall"
 
 
 source $HOME/.bashrc
