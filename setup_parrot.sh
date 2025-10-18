@@ -38,10 +38,10 @@ run() {
     printf '[*]: %s...\n' "$desc"
 
     if [ "$VERBOSE" -eq 1 ]; then
-        "$@"
+        eval "$@"
         status=$?
     else
-        "$@" > /dev/null 2>&1
+        eval "$@" > /dev/null 2>&1
         status=$?
     fi
 
