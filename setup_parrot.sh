@@ -87,6 +87,16 @@ if [ "$choice" = "Y" ] || [ "$choice" = "y" ]; then
 
     run "Installing Ghostpack-CompiledBinaries" \
         "git clone https://github.com/r3motecontrol/Ghostpack-CompiledBinaries"
+
+    run "Installing Dbeaver" \ 
+        "wget https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb -O ./dbeaver.deb && sudo dpkg -i ./dbeaver.deb"
+
+    run "Installing msdat" \
+        "git clone https://github.com/quentinhardy/msdat && cd msdat && sudo apt-get install freetds-dev && sudo pip3 install -r requirements.txt && sudo activate-global-python-argcomplete"
+
+    run "Installing other tools" \
+        "sudo apt-get install krb5-user"
+
 fi
 
 
