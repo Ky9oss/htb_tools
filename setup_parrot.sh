@@ -116,7 +116,7 @@ if [ "$choice" = "Y" ] || [ "$choice" = "y" ]; then
         "wget https://github.com/yaklang/yakit/releases/download/v1.4.4-0830/Yakit-1.4.4-0830-linux-amd64.AppImage -O ./yakit.AppImage && mv ./yakit.AppImage ./yakit && chmod +x ./yakit"
 
     run "Installing xray" \
-        "wget https://github.com/chaitin/xray/releases/download/1.9.11/xray_linux_amd64.zip && unzip ./xray_linux_amd64.zip && mv ./xray_linux_amd64 ./xray && chmod +x ./xray"
+        "wget https://github.com/chaitin/xray/releases/download/1.9.11/xray_linux_amd64.zip && unzip ./xray_linux_amd64.zip && chmod +x ./xray_linux_amd64"
 
     run "Installing rad" \
         "wget https://github.com/chaitin/rad/releases/download/1.0/rad_linux_amd64.zip -O ./rad_linux_amd64.zip && unzip ./rad_linux_amd64.zip &&  mv ./rad_linux_amd64 ./rad && chmod +x ./rad"
@@ -124,9 +124,26 @@ if [ "$choice" = "Y" ] || [ "$choice" = "y" ]; then
     run "Installing rustcan" \
         "wget https://github.com/bee-san/RustScan/releases/download/2.4.1/x86_64-linux-rustscan.tar.gz.zip -O ./x86_64-linux-rustscan.tar.gz.zip && unzip ./x86_64-linux-rustscan.tar.gz.zip && tar -zxvf ./x86_64-linux-rustscan.tar.gz && chmod +x ./rustscan"
 
+    run "Installing observer_ward" \
+        "wget https://github.com/emo-crab/observer_ward/releases/download/v2025.9.18/observer-ward_v2025.9.18_x86_64-unknown-linux-musl.deb && sudo dpkg -i observer-ward_v2025.9.18_x86_64-unknown-linux-musl.deb"
+
+    run "Installing mitmproxy" \
+        "git clone https://github.com/mitmproxy/mitmproxy.git && cd mitmproxy && curl -LsSf https://astral.sh/uv/install.sh | sh && uv run mitmproxy"
+
     run "Cleaning zip" \
         "rm ./xray_linux_amd64.zip ./rad_linux_amd64.zip ./x86_64-linux-rustscan.tar.gz ./x86_64-linux-rustscan.tar.gz.zip"
 
+    run "Add environment variables" \
+        "echo 'export PATH=\"\$HOME/web-tools/:\$PATH\"' >> $HOME/.bashrc"
+
+fi
+
+
+printf "Do you want to install AWVS? [Y/n] "
+read -r choice
+choice=${choice:-y}
+
+if [ "$choice" = "Y" ] || [ "$choice" = "y" ]; then
     run "Installing AWVS" \
         "sudo systemctl start docker && sudo docker pull ghcr.io/xrsec/awvs:24.4.240427095 && sudo docker run -it -d --name awvs -p 127.0.0.1:3443:3443 --restart=always ghcr.io/xrsec/awvs:24.4.240427095 && echo $(hostname -I | awk '{print $2}') awvs.lan | sudo tee -a /etc/hosts"
 
@@ -137,16 +154,6 @@ if [ "$choice" = "Y" ] || [ "$choice" = "y" ]; then
     "URL: https://awvs.lan:3443/#/login" \
     "UserName: awvs@awvs.lan" \
     "PassWord: Awvs@awvs.lan"
-
-    run "Installing observer_ward" \
-        "wget https://github.com/emo-crab/observer_ward/releases/download/v2025.9.18/observer-ward_v2025.9.18_x86_64-unknown-linux-musl.deb && sudo dpkg -i observer-ward_v2025.9.18_x86_64-unknown-linux-musl.deb"
-
-    run "Installing mitmproxy" \
-        "git clone https://github.com/mitmproxy/mitmproxy.git && cd mitmproxy && curl -LsSf https://astral.sh/uv/install.sh | sh && uv run mitmproxy"
-
-    run "Add environment variables" \
-        "echo 'export PATH=\"\$HOME/web-tools/:\$PATH\"' >> $HOME/.bashrc"
-
 fi
 
 
